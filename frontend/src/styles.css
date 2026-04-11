@@ -511,6 +511,68 @@ input::placeholder {
   object-fit: contain;
 }
 
+.cropper-overlay {
+  z-index: 65;
+}
+
+.cropper-card {
+  width: min(94vw, 520px);
+  display: grid;
+  gap: 16px;
+}
+
+.cropper-header,
+.cropper-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cropper-header h3 {
+  margin: 0;
+}
+
+.cropper-frame {
+  justify-self: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  background: rgba(7, 18, 31, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.cropper-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.32);
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+.cropper-image {
+  position: absolute;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.cropper-controls {
+  display: grid;
+  gap: 12px;
+}
+
+.cropper-control {
+  display: grid;
+  gap: 6px;
+}
+
+.cropper-control span {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
 .conversation-list {
   display: grid;
   gap: 10px;
@@ -1877,6 +1939,21 @@ input::placeholder {
   .confirm-card {
     border-radius: 20px;
     padding: 16px;
+  }
+
+  .cropper-card {
+    width: min(96vw, 420px);
+  }
+
+  .cropper-header,
+  .cropper-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cropper-frame {
+    width: min(78vw, 280px) !important;
+    height: min(78vw, 280px) !important;
   }
 
   .image-lightbox-card img {

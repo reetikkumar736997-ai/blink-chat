@@ -1770,6 +1770,11 @@ input::placeholder {
     height: calc(100dvh - 114px);
     max-height: calc(100dvh - 114px);
     overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .sidebar::after {
@@ -1860,6 +1865,11 @@ input::placeholder {
     height: calc(100dvh - 116px);
     max-height: calc(100dvh - 116px);
     overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .sidebar-box {
@@ -2154,6 +2164,11 @@ input::placeholder {
   .chat-shell--sidebar-only .sidebar {
     height: calc(100dvh - 90px);
     max-height: calc(100dvh - 90px);
+    scrollbar-width: none;
+  }
+
+  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .auth-shell {

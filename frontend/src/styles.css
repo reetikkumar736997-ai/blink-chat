@@ -2080,14 +2080,24 @@ input::placeholder {
   }
 
   .call-panel-centered {
-    width: min(100vw - 24px, 520px);
-    padding: 14px;
-    border-radius: 28px;
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    background:
+      radial-gradient(circle at top right, rgba(77, 226, 177, 0.1), transparent 24%),
+      linear-gradient(180deg, rgba(4, 14, 28, 0.92), rgba(3, 11, 24, 0.98));
   }
 
   .call-video-stage {
-    min-height: 58vh;
-    border-radius: 24px;
+    min-height: calc(100dvh - 136px);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
   }
 
   .call-media-card-local {
@@ -2104,6 +2114,8 @@ input::placeholder {
   .call-control-row-video {
     grid-template-columns: 1fr;
     flex-direction: column;
+    padding: 12px;
+    margin-top: 0;
   }
 
   .image-lightbox {
@@ -2257,13 +2269,16 @@ input::placeholder {
   }
 
   .call-panel-centered {
-    width: calc(100vw - 10px);
-    padding: 12px;
-    border-radius: 20px;
+    width: 100vw;
+    height: 100dvh;
+    padding: 0;
+    border-radius: 0;
   }
 
   .call-panel-header {
     align-items: flex-start;
+    padding: 12px 14px;
+    margin-bottom: 0;
   }
 
   .call-panel-timer {
@@ -2271,7 +2286,7 @@ input::placeholder {
   }
 
   .call-video-stage {
-    min-height: 56vh;
+    min-height: calc(100dvh - 132px);
   }
 
   .call-media-card-local {

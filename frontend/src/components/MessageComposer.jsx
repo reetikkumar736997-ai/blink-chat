@@ -106,13 +106,31 @@ export default function MessageComposer({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await onSend({
+    const payload = {
       text: safeDraftText,
       imageFile,
       audioFile,
       replyTo: replyingTo
-    });
+    };
+    const previousState = {
+      text: safeDraftText,
+      imageFile,
+      audioFile,
+      previewUrl,
+      recordingLabel
+    };
+
     resetComposer();
+
+    try {
+      await onSend(payload);
+    } catch (error) {
+      onDraftTextChange?.(previousState.text);
+      setImageFile(previousState.imageFile);
+      setAudioFile(previousState.audioFile);
+      setPreviewUrl(previousState.previewUrl);
+      setRecordingLabel(previousState.recordingLabel);
+    }
   };
 
   useEffect(() => {

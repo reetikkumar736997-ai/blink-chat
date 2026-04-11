@@ -8,6 +8,37 @@ import { useAuth } from "../state/AuthContext.jsx";
 import { getSocket } from "../socket/socket.js";
 
 export default function ConversationPage() {
+  const createTempMessageId = () =>
+    `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  const isMatchingOptimisticMessage = (pendingMessage, confirmedMessage) => {
+    if (!pendingMessage?.pending) {
+      return false;
+    }
+
+    const pendingTime = new Date(pendingMessage.createdAt).getTime();
+    const confirmedTime = new Date(confirmedMessage.createdAt).getTime();
+
+    return (
+      pendingMessage.senderId === confirmedMessage.senderId &&
+      pendingMessage.receiverId === confirmedMessage.receiverId &&
+      (pendingMessage.text || "") === (confirmedMessage.text || "") &&
+      Boolean(pendingMessage.image) === Boolean(confirmedMessage.image) &&
+      Boolean(pendingMessage.audio) === Boolean(confirmedMessage.audio) &&
+      Math.abs(pendingTime - confirmedTime) < 60000
+    );
+  };
+
+  const revokeMessagePreviewUrls = (message) => {
+    if (message?.image?.startsWith?.("blob:")) {
+      URL.revokeObjectURL(message.image);
+    }
+
+    if (message?.audio?.startsWith?.("blob:")) {
+      URL.revokeObjectURL(message.audio);
+    }
+  };
+
   const getMissedCallsForChat = (currentUserId, partnerId) => {
     if (!currentUserId || !partnerId) {
       return [];
@@ -404,7 +435,20 @@ export default function ConversationPage() {
         return;
       }
 
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => {
+        const optimisticIndex = prev.findIndex((entry) =>
+          isMatchingOptimisticMessage(entry, message)
+        );
+
+        if (optimisticIndex === -1) {
+          return [...prev, message];
+        }
+
+        const nextMessages = [...prev];
+        revokeMessagePreviewUrls(nextMessages[optimisticIndex]);
+        nextMessages[optimisticIndex] = message;
+        return nextMessages;
+      });
       if (message.senderId === userId) {
         api.patch(`/messages/${userId}/read`).catch(() => null);
         socket.emit("message:read", { partnerId: userId });
@@ -618,10 +662,10 @@ export default function ConversationPage() {
       return;
     }
 
-    setSending(true);
+    if (editingMessage?._id) {
+      setSending(true);
 
-    try {
-      if (editingMessage?._id) {
+      try {
         const updatedMessage = await new Promise((resolve, reject) => {
           socket.emit(
             "message:edit",
@@ -643,8 +687,38 @@ export default function ConversationPage() {
         setEditingMessage(null);
         setDraftText("");
         return;
+      } finally {
+        setSending(false);
       }
+    }
 
+    const createdAt = new Date().toISOString();
+    const optimisticMessageId = createTempMessageId();
+    const previewImageUrl = imageFile ? URL.createObjectURL(imageFile) : "";
+    const previewAudioUrl = audioFile ? URL.createObjectURL(audioFile) : "";
+    const optimisticMessage = {
+      _id: optimisticMessageId,
+      senderId: user._id,
+      receiverId: userId,
+      text,
+      image: previewImageUrl,
+      audio: previewAudioUrl,
+      imageMeta: null,
+      audioMeta: null,
+      createdAt,
+      status: "sent",
+      reactions: [],
+      replyTo,
+      pending: true
+    };
+
+    setSending(true);
+    setReplyingTo(null);
+    setDraftText("");
+    setSelectedMessageId("");
+    setMessages((prev) => [...prev, optimisticMessage]);
+
+    try {
       let image = "";
       let audio = "";
       let imageMeta = null;
@@ -680,7 +754,7 @@ export default function ConversationPage() {
         };
       }
 
-      await new Promise((resolve, reject) => {
+      const sentMessage = await new Promise((resolve, reject) => {
         socket.emit(
           "message:send",
           {
@@ -702,10 +776,31 @@ export default function ConversationPage() {
         );
       });
 
+      setMessages((prev) => {
+        const messageIndex = prev.findIndex((message) => message._id === optimisticMessageId);
+        if (messageIndex === -1) {
+          return prev;
+        }
+
+        const nextMessages = [...prev];
+        revokeMessagePreviewUrls(nextMessages[messageIndex]);
+        nextMessages[messageIndex] = sentMessage;
+        return nextMessages;
+      });
       socket.emit("typing:stop", { receiverId: userId });
-      setReplyingTo(null);
-      setDraftText("");
-      setSelectedMessageId("");
+    } catch (error) {
+      setMessages((prev) => {
+        const messageIndex = prev.findIndex((message) => message._id === optimisticMessageId);
+        if (messageIndex === -1) {
+          return prev;
+        }
+
+        const nextMessages = [...prev];
+        revokeMessagePreviewUrls(nextMessages[messageIndex]);
+        nextMessages.splice(messageIndex, 1);
+        return nextMessages;
+      });
+      throw error;
     } finally {
       setSending(false);
     }

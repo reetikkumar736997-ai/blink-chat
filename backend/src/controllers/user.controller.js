@@ -103,8 +103,8 @@ export const updateMyAvatar = async (req, res, next) => {
   try {
     const { avatar } = req.body;
 
-    if (typeof avatar !== "string" || !avatar.trim()) {
-      return res.status(400).json({ message: "Avatar image is required" });
+    if (typeof avatar !== "string") {
+      return res.status(400).json({ message: "Avatar must be a string" });
     }
 
     const user = await User.findByIdAndUpdate(

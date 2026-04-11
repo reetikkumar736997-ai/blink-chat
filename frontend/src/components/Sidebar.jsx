@@ -6,6 +6,7 @@ export default function Sidebar({
   currentUser,
   isSearching,
   onAvatarUpload,
+  onAvatarRemove,
   onSearchChange,
   users,
   searchQuery,
@@ -143,6 +144,15 @@ export default function Sidebar({
           />
           Upload profile image
         </label>
+        {currentUser.avatar ? (
+          <button
+            className="ghost-button profile-upload-button"
+            type="button"
+            onClick={onAvatarRemove}
+          >
+            Remove profile image
+          </button>
+        ) : null}
         <button className="ghost-button profile-logout-button" onClick={onLogout} type="button">
           Logout
         </button>

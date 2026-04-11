@@ -125,6 +125,11 @@ export default function ChatPage() {
     updateUser({ avatar });
   };
 
+  const handleAvatarRemove = async () => {
+    await api.patch("/users/me/avatar", { avatar: "" });
+    updateUser({ avatar: "" });
+  };
+
   if (!user) {
     return null;
   }
@@ -136,6 +141,7 @@ export default function ChatPage() {
         isSearching={isSearching}
         onSearchChange={setSearchQuery}
         onAvatarUpload={handleAvatarUpload}
+        onAvatarRemove={handleAvatarRemove}
         users={sortedUsers}
         searchQuery={searchQuery}
         searchResults={mergedSearchResults}

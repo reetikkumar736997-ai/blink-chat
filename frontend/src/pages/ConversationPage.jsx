@@ -853,8 +853,13 @@ export default function ConversationPage() {
       return;
     }
 
+    const targetId = deleteTarget._id;
+    const previousMessages = messages;
     setDeletingMessageId(deleteTarget._id);
     setDeleteError("");
+    setDeleteTarget(null);
+    setSelectedMessageId("");
+    setMessages((prev) => prev.filter((message) => message._id !== targetId));
 
     try {
       const socket = getSocket();
@@ -867,7 +872,7 @@ export default function ConversationPage() {
               reject(new Error("Socket delete timeout"));
             }, 2500);
 
-            socket.emit("message:delete", { messageId: deleteTarget._id }, (response) => {
+            socket.emit("message:delete", { messageId: targetId }, (response) => {
               window.clearTimeout(timeoutId);
 
               if (response?.success) {
@@ -885,7 +890,7 @@ export default function ConversationPage() {
 
       if (!deleted) {
         try {
-          await api.delete(`/messages/id/${deleteTarget._id}`);
+          await api.delete(`/messages/id/${targetId}`);
         } catch (primaryError) {
           if (primaryError.response?.status === 403) {
             throw primaryError;
@@ -895,17 +900,12 @@ export default function ConversationPage() {
             throw primaryError;
           }
 
-          await api.delete(`/messages/${deleteTarget._id}`);
+          await api.delete(`/messages/${targetId}`);
         }
       }
-
-      setDeleteTarget(null);
-      setMessages((prev) =>
-        prev.filter((message) => message._id !== deleteTarget._id)
-      );
-      setSelectedMessageId("");
     } catch (error) {
       const statusCode = error.response?.status;
+      setMessages(previousMessages);
       setDeleteError(
         statusCode === 403
           ? "You can only delete your own messages."

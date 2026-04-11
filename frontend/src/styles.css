@@ -1812,9 +1812,11 @@ input::placeholder {
 
   .auth-shell {
     min-height: 100dvh;
+    height: 100dvh;
     align-content: start;
-    padding-top: 104px;
-    padding-bottom: 24px;
+    padding-top: 96px;
+    padding-bottom: 12px;
+    overflow: hidden;
   }
 
   .auth-card,
@@ -1824,7 +1826,9 @@ input::placeholder {
   }
 
   .auth-card {
-    padding: 22px;
+    padding: 20px;
+    max-height: calc(100dvh - 120px);
+    overflow: hidden;
   }
 
   .sidebar {
@@ -1873,7 +1877,7 @@ input::placeholder {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 10px;
-    margin: 10px 10px 0;
+    margin: 6px 10px 0;
     padding: 12px 14px;
   }
 
@@ -1915,7 +1919,8 @@ input::placeholder {
 
   .composer {
     gap: 12px;
-    padding-bottom: 14px;
+    padding-top: 10px;
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
   }
 
   .reply-preview-card .ghost-button,
@@ -2017,15 +2022,15 @@ input::placeholder {
   }
 
   .conversation-shell {
-    padding: 86px 0 0;
+    padding: 80px 0 0;
     height: 100dvh;
     min-height: 100dvh;
   }
 
   .conversation-panel {
     width: 100%;
-    height: calc(100dvh - 86px);
-    min-height: calc(100dvh - 86px);
+    height: calc(100dvh - 80px);
+    min-height: calc(100dvh - 80px);
     border-radius: 0;
   }
 
@@ -2116,10 +2121,10 @@ input::placeholder {
   }
 
   .auth-shell {
-    padding-top: 92px;
+    padding-top: 84px;
     padding-left: 12px;
     padding-right: 12px;
-    padding-bottom: 20px;
+    padding-bottom: 8px;
   }
 
   .auth-card,
@@ -2171,21 +2176,22 @@ input::placeholder {
   }
 
   .composer {
-    padding-bottom: 12px;
+    padding-top: 8px;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
   .chat-header {
-    margin: 12px 8px 0;
+    margin: 4px 8px 0;
     padding: 10px 12px;
   }
 
   .conversation-shell {
-    padding-top: 78px;
+    padding-top: 72px;
   }
 
   .conversation-panel {
-    height: calc(100dvh - 78px);
-    min-height: calc(100dvh - 78px);
+    height: calc(100dvh - 72px);
+    min-height: calc(100dvh - 72px);
   }
 
   .message-bubble {

@@ -65,6 +65,7 @@ export default function ConversationPage() {
   const disconnectTimeoutRef = useRef(null);
   const callStartedAtRef = useRef(null);
   const callConnectedRef = useRef(false);
+  const incomingCallRef = useRef(null);
 
   const rtcConfig = useMemo(
     () => ({
@@ -94,6 +95,10 @@ export default function ConversationPage() {
   useEffect(() => {
     setMissedCallEntries(getMissedCallsForChat(user?._id, userId));
   }, [user?._id, userId]);
+
+  useEffect(() => {
+    incomingCallRef.current = incomingCall;
+  }, [incomingCall]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -186,6 +191,7 @@ export default function ConversationPage() {
 
     pendingOfferRef.current = null;
     remoteCandidateQueueRef.current = [];
+    incomingCallRef.current = null;
     setCallStatus("");
     setCallType("");
     setCallDuration("00:00");
@@ -459,6 +465,11 @@ export default function ConversationPage() {
       }
 
       pendingOfferRef.current = offer;
+      incomingCallRef.current = {
+        callerId,
+        callerName,
+        callType: nextCallType
+      };
       setIncomingCall({
         callerId,
         callerName,
@@ -513,6 +524,17 @@ export default function ConversationPage() {
         return;
       }
 
+      const pendingIncomingCall = incomingCallRef.current;
+      if (pendingIncomingCall && !callConnectedRef.current) {
+        saveMissedCall(
+          {
+            _id: rejectingUserId,
+            name: selectedUser?.name || pendingIncomingCall.callerName || "User"
+          },
+          pendingIncomingCall.callType || "audio"
+        );
+      }
+
       cleanupCall();
       setCallStatus("Call declined");
       window.setTimeout(() => setCallStatus(""), 2200);
@@ -523,13 +545,15 @@ export default function ConversationPage() {
         return;
       }
 
-       if (incomingCall && !callConnectedRef.current) {
+      const pendingIncomingCall = incomingCallRef.current;
+
+      if (pendingIncomingCall && !callConnectedRef.current) {
         saveMissedCall(
           {
             _id: endingUserId,
-            name: selectedUser?.name || incomingCall.callerName || "User"
+            name: selectedUser?.name || pendingIncomingCall.callerName || "User"
           },
-          incomingCall.callType || "audio"
+          pendingIncomingCall.callType || "audio"
         );
       }
 

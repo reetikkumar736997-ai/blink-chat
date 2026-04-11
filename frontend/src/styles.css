@@ -1752,10 +1752,16 @@ input::placeholder {
 
   .chat-shell--sidebar-only {
     align-content: start;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
   }
 
   .chat-shell--sidebar-only .sidebar {
-    min-height: auto;
+    min-height: 0;
+    height: calc(100dvh - 114px);
+    max-height: calc(100dvh - 114px);
+    overflow-y: auto;
   }
 
   .sidebar::after {
@@ -1835,6 +1841,17 @@ input::placeholder {
     padding: 16px;
     gap: 14px;
     overflow-y: visible;
+  }
+
+  .chat-shell--sidebar-only {
+    padding-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .chat-shell--sidebar-only .sidebar {
+    height: calc(100dvh - 116px);
+    max-height: calc(100dvh - 116px);
+    overflow-y: auto;
   }
 
   .sidebar-box {
@@ -2118,6 +2135,17 @@ input::placeholder {
 
   .chat-shell {
     padding-top: 82px;
+  }
+
+  .chat-shell--sidebar-only {
+    height: 100dvh;
+    min-height: 100dvh;
+    padding-bottom: 8px;
+  }
+
+  .chat-shell--sidebar-only .sidebar {
+    height: calc(100dvh - 90px);
+    max-height: calc(100dvh - 90px);
   }
 
   .auth-shell {

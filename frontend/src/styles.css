@@ -471,12 +471,18 @@ input::placeholder {
 
 .profile-upload-button {
   width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .profile-logout-button {
   width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .sidebar-profile-box .sidebar-header {
@@ -828,6 +834,7 @@ input::placeholder {
 .message-list {
   padding: 10px 20px 8px;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -836,6 +843,7 @@ input::placeholder {
   background: var(--chat-wallpaper);
   background-size: cover;
   overscroll-behavior: contain;
+  overscroll-behavior-x: none;
 }
 
 .message-list > :first-child {
@@ -864,6 +872,7 @@ input::placeholder {
 .message-row {
   display: flex;
   min-width: 0;
+  overflow-x: clip;
 }
 
 .message-row.mine {
@@ -875,13 +884,14 @@ input::placeholder {
 }
 
 .message-bubble {
-  max-width: min(38%, 220px);
+  max-width: min(33%, 190px);
   border-radius: 16px;
-  padding: 6px 8px;
+  padding: 5px 7px;
   box-shadow: var(--bubble-shadow);
   position: relative;
   border: 1px solid var(--bubble-border);
   backdrop-filter: blur(10px);
+  overflow: visible;
 }
 
 .message-bubble.mine {
@@ -966,6 +976,7 @@ input::placeholder {
   box-shadow: 0 18px 36px rgba(2, 8, 20, 0.18);
   min-width: 190px;
   z-index: 3;
+  box-sizing: border-box;
 }
 
 .message-popup.mine {
@@ -1629,6 +1640,7 @@ input::placeholder {
   height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
+  overflow-x: clip;
 }
 
 .conversation-topbar {
@@ -1658,6 +1670,7 @@ input::placeholder {
   width: min(100%, 900px);
   justify-self: center;
   overflow: hidden;
+  overflow-x: clip;
 }
 
 @media (max-width: 900px) {
@@ -1866,9 +1879,9 @@ input::placeholder {
   }
 
   .message-bubble {
-    max-width: min(86vw, 320px);
-    padding: 8px 10px;
-    border-radius: 18px;
+    max-width: min(72vw, 250px);
+    padding: 7px 9px;
+    border-radius: 16px;
   }
 
   .message-image {
@@ -1885,9 +1898,9 @@ input::placeholder {
     top: auto;
     bottom: 98px;
     transform: translateX(-50%);
-    width: min(calc(100vw - 24px), 320px);
+    width: min(calc(100vw - 28px), 280px);
     min-width: 0;
-    max-width: calc(100vw - 24px);
+    max-width: calc(100vw - 28px);
     z-index: 70;
   }
 
@@ -2041,7 +2054,7 @@ input::placeholder {
   }
 
   .message-bubble {
-    max-width: 86%;
+    max-width: min(70vw, 230px);
   }
 
   .unread-badge {

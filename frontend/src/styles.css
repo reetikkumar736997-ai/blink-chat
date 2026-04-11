@@ -1612,6 +1612,14 @@ input::placeholder {
   border-radius: 0;
 }
 
+.call-media-card-remote video {
+  object-fit: contain;
+  object-position: center;
+  background:
+    radial-gradient(circle at center, rgba(77, 226, 177, 0.08), transparent 40%),
+    rgba(4, 12, 24, 0.96);
+}
+
 .call-media-card-local video,
 .call-media-card-local .call-avatar-card {
   width: 100%;
@@ -2071,7 +2079,7 @@ input::placeholder {
 
   .call-media-card-local {
     width: 112px;
-    right: 12px;
+    right: 16px;
     top: 12px;
   }
 
@@ -2246,7 +2254,7 @@ input::placeholder {
 
   .call-media-card-local {
     width: 92px;
-    right: 10px;
+    right: 14px;
     top: 10px;
   }
 

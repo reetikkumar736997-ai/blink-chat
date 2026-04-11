@@ -1774,6 +1774,11 @@ input::placeholder {
     max-height: calc(100dvh - 114px);
     overflow-y: auto;
     scrollbar-width: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
   }
 
   .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
@@ -1869,6 +1874,11 @@ input::placeholder {
     max-height: calc(100dvh - 116px);
     overflow-y: auto;
     scrollbar-width: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0 0 8px;
   }
 
   .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
@@ -2183,6 +2193,11 @@ input::placeholder {
     height: calc(100dvh - 90px);
     max-height: calc(100dvh - 90px);
     scrollbar-width: none;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0 0 6px;
   }
 
   .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {

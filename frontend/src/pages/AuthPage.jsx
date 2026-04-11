@@ -40,12 +40,9 @@ export default function AuthPage() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <div>
-          <p className="eyebrow">Real-Time Chat</p>
-          <h1>{isSignup ? "Create your account" : "Welcome back"}</h1>
-          <p className="muted">
-            Text aur image messages instant deliver honge with online status and typing updates.
-          </p>
+        <div className="auth-hero">
+          <div className="auth-hero-pill">Live Chat</div>
+          <h1 className="auth-hero-title">Laxreet Chatting</h1>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -86,21 +83,23 @@ export default function AuthPage() {
           {error ? <p className="error-text">{error}</p> : null}
 
           <button className="primary-button" type="submit" disabled={submitting}>
-            {submitting ? "Please wait..." : isSignup ? "Create account" : "Login"}
+            {submitting ? "Please wait..." : isSignup ? "Create account" : "Sign in"}
           </button>
         </form>
 
-        <button
-          className="link-button"
-          type="button"
-          onClick={() => {
-            setError("");
-            setForm(initialForm);
-            setIsSignup((prev) => !prev);
-          }}
-        >
-          {isSignup ? "Already have an account? Login" : "New here? Create an account"}
-        </button>
+        <div className="auth-switch-row">
+          <button
+            className="link-button auth-switch-link"
+            type="button"
+            onClick={() => {
+              setError("");
+              setForm(initialForm);
+              setIsSignup((prev) => !prev);
+            }}
+          >
+            {isSignup ? "Already have an account? Login" : "New here? Create an account"}
+          </button>
+        </div>
       </div>
     </div>
   );

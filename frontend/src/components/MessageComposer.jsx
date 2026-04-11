@@ -24,6 +24,7 @@ export default function MessageComposer({
   const streamRef = useRef(null);
   const chunksRef = useRef([]);
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   const handleTyping = (value) => {
     onDraftTextChange?.(value);
@@ -218,6 +219,13 @@ export default function MessageComposer({
                 <button
                   className="composer-menu-item"
                   type="button"
+                  onClick={() => cameraInputRef.current?.click()}
+                >
+                  Camera
+                </button>
+                <button
+                  className="composer-menu-item"
+                  type="button"
                   onClick={isRecording ? cleanupRecording : handleStartRecording}
                 >
                   {isRecording ? "Stop audio" : "Audio"}
@@ -228,6 +236,14 @@ export default function MessageComposer({
             <input
               ref={fileInputRef}
               accept="image/*"
+              type="file"
+              onChange={handleImageChange}
+              hidden
+            />
+            <input
+              ref={cameraInputRef}
+              accept="image/*"
+              capture="environment"
               type="file"
               onChange={handleImageChange}
               hidden

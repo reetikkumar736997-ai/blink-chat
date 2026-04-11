@@ -1097,29 +1097,39 @@ export default function ConversationPage() {
 
             <div className="call-video-stage">
               <div className="call-media-card call-media-card-remote">
-                <span>{selectedUser?.name || "User"}</span>
+                <span className="call-badge call-badge-remote">
+                  {selectedUser?.name || "User"}
+                </span>
                 {remoteStreamReady ? (
                   <video ref={remoteVideoRef} autoPlay playsInline />
                 ) : (
-                  <div className="call-avatar-card">
-                    {(selectedUser?.name || "U").slice(0, 1).toUpperCase()}
+                  <div className="call-avatar-card call-avatar-card-remote">
+                    {selectedUser?.avatar ? (
+                      <img src={selectedUser.avatar} alt={`${selectedUser.name} avatar`} />
+                    ) : (
+                      <span>{(selectedUser?.name || "U").slice(0, 1).toUpperCase()}</span>
+                    )}
                   </div>
                 )}
               </div>
 
               <div className="call-media-card call-media-card-local">
-                <span>You</span>
+                <span className="call-badge call-badge-local">You</span>
                 {!isCameraOff ? (
                   <video ref={localVideoRef} autoPlay muted playsInline />
                 ) : (
-                  <div className="call-avatar-card">
-                    {user.name.slice(0, 1).toUpperCase()}
+                  <div className="call-avatar-card call-avatar-card-local">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={`${user.name} avatar`} />
+                    ) : (
+                      <span>{user.name.slice(0, 1).toUpperCase()}</span>
+                    )}
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="call-control-row">
+            <div className="call-control-row call-control-row-video">
               <button
                 className="ghost-button call-toggle-button"
                 type="button"

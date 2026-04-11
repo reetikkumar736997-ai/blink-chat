@@ -1763,26 +1763,21 @@ input::placeholder {
 
   .chat-shell--sidebar-only {
     align-content: start;
-    height: 100dvh;
+    height: auto;
     min-height: 100dvh;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .chat-shell--sidebar-only .sidebar {
-    min-height: 0;
-    height: calc(100dvh - 114px);
-    max-height: calc(100dvh - 114px);
-    overflow-y: auto;
-    scrollbar-width: none;
+    min-height: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
     background: transparent;
     border: none;
     box-shadow: none;
     backdrop-filter: none;
     padding: 0;
-  }
-
-  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
-    display: none;
   }
 
   .sidebar::after {
@@ -1866,23 +1861,18 @@ input::placeholder {
 
   .chat-shell--sidebar-only {
     padding-bottom: 12px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .chat-shell--sidebar-only .sidebar {
-    height: calc(100dvh - 116px);
-    max-height: calc(100dvh - 116px);
-    overflow-y: auto;
-    scrollbar-width: none;
+    height: auto;
+    max-height: none;
+    overflow: visible;
     background: transparent;
     border: none;
     box-shadow: none;
     backdrop-filter: none;
     padding: 0 0 8px;
-  }
-
-  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
-    display: none;
   }
 
   .sidebar-box {
@@ -2110,13 +2100,13 @@ input::placeholder {
   }
 
   .call-media-card-local {
-    width: 112px;
-    right: 16px;
+    width: 96px;
+    right: 12px;
     top: 12px;
   }
 
   .call-media-card-remote {
-    padding: 54px 88px 16px 16px;
+    padding: 54px 104px 16px 16px;
   }
 
   .call-control-row,
@@ -2184,24 +2174,20 @@ input::placeholder {
   }
 
   .chat-shell--sidebar-only {
-    height: 100dvh;
+    height: auto;
     min-height: 100dvh;
     padding-bottom: 8px;
   }
 
   .chat-shell--sidebar-only .sidebar {
-    height: calc(100dvh - 90px);
-    max-height: calc(100dvh - 90px);
-    scrollbar-width: none;
+    height: auto;
+    max-height: none;
+    overflow: visible;
     background: transparent;
     border: none;
     box-shadow: none;
     backdrop-filter: none;
     padding: 0 0 6px;
-  }
-
-  .chat-shell--sidebar-only .sidebar::-webkit-scrollbar {
-    display: none;
   }
 
   .auth-shell {
@@ -2305,13 +2291,13 @@ input::placeholder {
   }
 
   .call-media-card-local {
-    width: 92px;
-    right: 14px;
+    width: 78px;
+    right: 8px;
     top: 10px;
   }
 
   .call-media-card-remote {
-    padding: 48px 74px 14px 14px;
+    padding: 48px 88px 14px 14px;
   }
 
   .unread-badge {

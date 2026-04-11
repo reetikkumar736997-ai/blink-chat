@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blinkBg" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="1" stop-color="#34D399"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#blinkBg)"/>
+  <path d="M22 21.5C22 18.4624 24.4624 16 27.5 16H36.5C39.5376 16 42 18.4624 42 21.5V30.5C42 33.5376 39.5376 36 36.5 36H32.8L26 42V36C23.7909 36 22 34.2091 22 32V21.5Z" fill="white" fill-opacity="0.22"/>
+  <path d="M27 22.5H35.5C38.5376 22.5 41 24.9624 41 28V31.5C41 34.5376 38.5376 37 35.5 37H27L22 42V28C22 24.9624 24.4624 22.5 27 22.5Z" fill="white"/>
+  <path d="M29.5 27.5H34.5" stroke="#10B981" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M29.5 31.5H37" stroke="#10B981" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
+import { sendLoginAlert } from "../utils/telegram.js";
 
 const sanitizeUser = (user) => ({
   _id: user._id,
@@ -68,6 +69,17 @@ export const login = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
+
+    const ipAddress =
+      req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+      req.socket?.remoteAddress ||
+      req.ip ||
+      "";
+    const userAgent = req.get("user-agent") || "";
+
+    sendLoginAlert({ user, ipAddress, userAgent }).catch((alertError) => {
+      console.error("Telegram login alert failed", alertError.message);
+    });
 
     res.json({
       token: generateToken(user._id),

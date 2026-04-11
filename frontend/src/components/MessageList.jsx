@@ -242,6 +242,9 @@ export default function MessageList({
                     }
                   }}
                 >
+                  <span className="missed-call-icon" aria-hidden="true">
+                    {message.callType === "video" ? "📹" : "📞"}
+                  </span>
                   <strong>
                     Missed {message.callType === "video" ? "video" : "audio"} call
                   </strong>

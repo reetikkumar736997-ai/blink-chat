@@ -365,6 +365,10 @@ input::placeholder {
   min-height: 100dvh;
 }
 
+.chat-shell--sidebar-only {
+  grid-template-columns: minmax(320px, 540px);
+}
+
 .sidebar,
 .chat-panel {
   background: var(--chat-panel-surface);
@@ -384,6 +388,10 @@ input::placeholder {
   position: relative;
   overflow-y: auto;
   min-height: 0;
+}
+
+.chat-shell--sidebar-only .sidebar {
+  min-height: calc(100dvh - 48px);
 }
 
 .sidebar::after {
@@ -876,6 +884,8 @@ input::placeholder {
   display: flex;
   min-width: 0;
   overflow-x: clip;
+  position: relative;
+  overflow: visible;
 }
 
 .message-row.mine {
@@ -1682,13 +1692,22 @@ input::placeholder {
     grid-template-columns: 1fr;
     padding-top: 84px;
     gap: 18px;
-    height: 100dvh;
-    overflow: hidden;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .sidebar {
     min-height: auto;
-    max-height: 100%;
+    max-height: none;
+  }
+
+  .chat-shell--sidebar-only {
+    align-content: start;
+  }
+
+  .chat-shell--sidebar-only .sidebar {
+    min-height: auto;
   }
 
   .sidebar::after {
@@ -1756,7 +1775,7 @@ input::placeholder {
   .sidebar {
     padding: 16px;
     gap: 14px;
-    overflow-y: auto;
+    overflow-y: visible;
   }
 
   .sidebar-box {
@@ -1902,15 +1921,15 @@ input::placeholder {
   .message-popup.mine,
   .message-popup.theirs,
   .message-popup.system {
-    position: fixed;
+    position: absolute;
     left: 50%;
     right: auto;
     top: 50%;
     bottom: auto;
     transform: translate(-50%, -50%);
-    width: min(calc(100vw - 48px), 228px);
+    width: min(calc(100% - 20px), 228px);
     min-width: 0;
-    max-width: calc(100vw - 48px);
+    max-width: min(calc(100% - 20px), 228px);
     z-index: 70;
     padding: 8px;
   }
@@ -2016,6 +2035,10 @@ input::placeholder {
   .chat-shell,
   .conversation-shell {
     padding: 0;
+  }
+
+  .chat-shell {
+    padding-top: 72px;
   }
 
   .auth-card,

@@ -135,7 +135,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="chat-shell discovery-shell">
+    <div className="chat-shell chat-shell--sidebar-only discovery-shell">
       <Sidebar
         currentUser={user}
         isSearching={isSearching}
@@ -151,16 +151,6 @@ export default function ChatPage() {
         onSelectUser={handleSelectUser}
         onLogout={logout}
       />
-
-      <main className="discovery-panel">
-        <div className="empty-state">
-          <h2>Private chat search</h2>
-          <p>
-            Search for a user by username or email. Click the result to open a
-            private chat on a separate page.
-          </p>
-        </div>
-      </main>
     </div>
   );
 }

@@ -3,6 +3,93 @@ import { formatDateSeparator, formatMessageTime } from "../utils/date.js";
 
 const REACTION_OPTIONS = ["\u{1F44D}", "\u2764\uFE0F", "\u{1F602}"];
 
+const SelectedMessagePopup = ({
+  deletingMessageId,
+  editingMessageId,
+  message,
+  mine,
+  currentUser,
+  onDeleteMessage,
+  onDeleteMissedCall,
+  onEditMessage,
+  onReactionToggle,
+  onReplyMessage
+}) => {
+  if (message.type === "missed-call") {
+    return (
+      <div className="message-popup system" onClick={(event) => event.stopPropagation()}>
+        <div className="message-popup-actions">
+          <button
+            className="message-action-button"
+            type="button"
+            onClick={() => onDeleteMissedCall?.(message.notificationId)}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`message-popup ${mine ? "mine" : "theirs"}`}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div className="message-popup-reactions">
+        {REACTION_OPTIONS.map((emoji) => {
+          const active = message.reactions?.some(
+            (reaction) => reaction.userId === currentUser._id && reaction.emoji === emoji
+          );
+
+          return (
+            <button
+              key={emoji}
+              className={`reaction-pill popup ${active ? "active" : ""}`}
+              type="button"
+              onClick={() => onReactionToggle?.(message._id, emoji)}
+            >
+              <span>{emoji}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="message-popup-actions">
+        <button
+          className="message-action-button"
+          type="button"
+          onClick={() => onReplyMessage?.(message)}
+        >
+          Reply
+        </button>
+
+        {mine && message.text ? (
+          <button
+            className="message-action-button"
+            type="button"
+            onClick={() => onEditMessage?.(message)}
+            disabled={editingMessageId === message._id}
+          >
+            {editingMessageId === message._id ? "Editing..." : "Edit"}
+          </button>
+        ) : null}
+
+        {mine ? (
+          <button
+            className="message-action-button"
+            type="button"
+            onClick={() => onDeleteMessage?.(message)}
+            disabled={deletingMessageId === message._id}
+          >
+            {deletingMessageId === message._id ? "Deleting..." : "Delete"}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
 const formatAudioTime = (seconds) => {
   const safeSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
   const minutes = String(Math.floor(safeSeconds / 60)).padStart(2, "0");
@@ -155,27 +242,25 @@ export default function MessageList({
                     }
                   }}
                 >
-                  {isSelected ? (
-                    <div
-                      className="message-popup system"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <div className="message-popup-actions">
-                        <button
-                          className="message-action-button"
-                          type="button"
-                          onClick={() => onDeleteMissedCall?.(message.notificationId)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ) : null}
                   <strong>
                     Missed {message.callType === "video" ? "video" : "audio"} call
                   </strong>
                   <span>{formatMessageTime(message.createdAt)}</span>
                 </div>
+                {isSelected ? (
+                  <SelectedMessagePopup
+                    currentUser={currentUser}
+                    deletingMessageId={deletingMessageId}
+                    editingMessageId={editingMessageId}
+                    message={message}
+                    mine={false}
+                    onDeleteMessage={onDeleteMessage}
+                    onDeleteMissedCall={onDeleteMissedCall}
+                    onEditMessage={onEditMessage}
+                    onReactionToggle={onReactionToggle}
+                    onReplyMessage={onReplyMessage}
+                  />
+                ) : null}
               </div>
             </div>
           );
@@ -232,65 +317,6 @@ export default function MessageList({
                   }
                 }}
               >
-                {isSelected ? (
-                  <div
-                    className={`message-popup ${mine ? "mine" : "theirs"}`}
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    <div className="message-popup-reactions">
-                      {REACTION_OPTIONS.map((emoji) => {
-                        const active = message.reactions?.some(
-                          (reaction) =>
-                            reaction.userId === currentUser._id && reaction.emoji === emoji
-                        );
-
-                        return (
-                          <button
-                            key={emoji}
-                            className={`reaction-pill popup ${active ? "active" : ""}`}
-                            type="button"
-                            onClick={() => onReactionToggle?.(message._id, emoji)}
-                          >
-                            <span>{emoji}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="message-popup-actions">
-                      <button
-                        className="message-action-button"
-                        type="button"
-                        onClick={() => onReplyMessage?.(message)}
-                      >
-                        Reply
-                      </button>
-
-                      {mine && message.text ? (
-                        <button
-                          className="message-action-button"
-                          type="button"
-                          onClick={() => onEditMessage?.(message)}
-                          disabled={editingMessageId === message._id}
-                        >
-                          {editingMessageId === message._id ? "Editing..." : "Edit"}
-                        </button>
-                      ) : null}
-
-                      {mine ? (
-                        <button
-                          className="message-action-button"
-                          type="button"
-                          onClick={() => onDeleteMessage?.(message)}
-                          disabled={deletingMessageId === message._id}
-                        >
-                          {deletingMessageId === message._id ? "Deleting..." : "Delete"}
-                        </button>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : null}
-
                 {message.replyTo?.messageId ? (
                   <button
                     className="reply-chip"
@@ -368,6 +394,20 @@ export default function MessageList({
                   ) : null}
                 </div>
               </div>
+              {isSelected ? (
+                <SelectedMessagePopup
+                  currentUser={currentUser}
+                  deletingMessageId={deletingMessageId}
+                  editingMessageId={editingMessageId}
+                  message={message}
+                  mine={mine}
+                  onDeleteMessage={onDeleteMessage}
+                  onDeleteMissedCall={onDeleteMissedCall}
+                  onEditMessage={onEditMessage}
+                  onReactionToggle={onReactionToggle}
+                  onReplyMessage={onReplyMessage}
+                />
+              ) : null}
             </div>
           </div>
         );

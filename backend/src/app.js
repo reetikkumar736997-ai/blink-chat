@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
+import { corsOriginHandler } from "./config/origins.js";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: corsOriginHandler,
     credentials: true
   })
 );

@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import { SOCKET_BASE_URL } from "../config/runtime.js";
 
 let socket;
 
@@ -7,7 +8,7 @@ export const connectSocket = (token) => {
     return socket;
   }
 
-  socket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:5000", {
+  socket = io(SOCKET_BASE_URL, {
     auth: {
       token
     },

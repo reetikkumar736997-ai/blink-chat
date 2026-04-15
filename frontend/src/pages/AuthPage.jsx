@@ -31,7 +31,12 @@ export default function AuthPage() {
       const response = await api.post(endpoint, payload);
       saveSession(response.data.token, response.data.user);
     } catch (requestError) {
-      setError(requestError.response?.data?.message || "Authentication failed");
+      const serverMessage = requestError.response?.data?.message;
+      const networkMessage =
+        requestError.code === "ERR_NETWORK"
+          ? "Server se connection nahi ho paaya. Sahi app link kholo aur thodi der baad dobara try karo."
+          : "";
+      setError(serverMessage || networkMessage || "Authentication failed");
     } finally {
       setSubmitting(false);
     }

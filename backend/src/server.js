@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import { configureCloudinary } from "./config/cloudinary.js";
+import { corsOriginHandler } from "./config/origins.js";
 import { registerSocketHandlers } from "./socket/index.js";
 
 dotenv.config();
@@ -13,7 +14,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: corsOriginHandler,
     credentials: true
   },
   pingInterval: 25000,

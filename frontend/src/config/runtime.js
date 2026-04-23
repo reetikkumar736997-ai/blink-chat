@@ -19,5 +19,14 @@ const resolveOrigin = (envValue) => {
   return isLocalRuntime() ? "http://localhost:5000" : PRODUCTION_API_ORIGIN;
 };
 
-export const API_BASE_URL = `${resolveOrigin(import.meta.env.VITE_API_URL)?.replace(/\/api$/, "")}/api`;
+const resolveApiBaseUrl = () => {
+  if (isLocalRuntime()) {
+    return `${resolveOrigin(import.meta.env.VITE_API_URL).replace(/\/api$/, "")}/api`;
+  }
+
+  // Keep production API calls same-origin so mobile networks only talk to Vercel.
+  return "/api";
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 export const SOCKET_BASE_URL = resolveOrigin(import.meta.env.VITE_SOCKET_URL);
